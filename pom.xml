@@ -2,14 +2,14 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.websystique.springmvc</groupId>
-	<artifactId>Spring4MVCHelloWorldNoXMLDemo</artifactId>
+	<groupId>com.mysuperscore</groupId>
+	<artifactId>MVCProject</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0</version>
-	<name>Spring4MVCHelloWorldNoXMLDemo</name>
+	<name>MySuperScore</name>
 
 	<properties>
-		<springframework.version>4.0.6.RELEASE</springframework.version>
+		<springframework.version>4.3.5.RELEASE</springframework.version>
 	</properties>
 
 	<dependencies>
@@ -23,6 +23,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
@@ -34,6 +35,16 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>6.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.3.5.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -42,6 +53,10 @@
 					<groupId>org.apache.tomcat.maven</groupId>
 					<artifactId>tomcat7-maven-plugin</artifactId>
 					<version>2.2</version>
+					<configuration>
+						<port>9090</port>
+						<path>/</path>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

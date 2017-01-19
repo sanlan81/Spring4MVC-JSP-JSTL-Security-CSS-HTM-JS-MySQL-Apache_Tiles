@@ -1,4 +1,4 @@
-package com.websystique.springmvc.configuration;
+package com.mysuperscore.configuration;
 
 //public class HelloWorldInitializer implements WebApplicationInitializer {
 //

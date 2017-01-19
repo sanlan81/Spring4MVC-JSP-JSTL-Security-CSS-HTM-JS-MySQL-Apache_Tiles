@@ -7,6 +7,7 @@
 	<title>HelloWorld page</title>
 </head>
 <body>
+<h1>Hi Man !</h1>
 Greeting : ${greeting}
 </body>
 </html>

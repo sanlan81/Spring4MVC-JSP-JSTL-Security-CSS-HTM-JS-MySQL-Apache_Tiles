@@ -1,4 +1,4 @@
-package com.websystique.springmvc.controller;
+package com.mysuperscore.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

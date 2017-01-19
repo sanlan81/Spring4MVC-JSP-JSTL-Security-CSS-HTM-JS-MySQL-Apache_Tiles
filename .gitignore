@@ -6,3 +6,5 @@
 /out/
 # mpeltonen/sbt-idea plugin
 .idea_modules/
+Spring4MVCHelloWorldNoXMLDemo.iml
+.settings
