@@ -4,6 +4,7 @@ package com.mysuperscore.model;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class Song implements Serializable {
     @Size(min=3, max=20)
     private String album;
 
+    @Min(1)
     @NotNull
     private Integer numberOfPages;
 
