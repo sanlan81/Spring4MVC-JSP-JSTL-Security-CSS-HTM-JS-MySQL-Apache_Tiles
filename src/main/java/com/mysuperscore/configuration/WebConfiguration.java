@@ -1,22 +1,32 @@
 package com.mysuperscore.configuration;
 
+
 import com.mysuperscore.dao.SongDAO;
 import com.mysuperscore.validator.FileValidator;
+import org.flywaydb.core.Flyway;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -34,6 +44,41 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
+
+////////////////////////////
+	@Bean
+	public TilesConfigurer tilesConfigurer(){
+		TilesConfigurer tilesConfigurer = new TilesConfigurer();
+		tilesConfigurer.setDefinitions("/WEB-INF/views/**/tiles.xml");
+		tilesConfigurer.setCheckRefresh(true);
+		return tilesConfigurer;
+	}
+
+
+
+
+	@Bean
+	public TilesViewResolver tilesViewResolver(){
+		return new TilesViewResolver();
+
+	}
+
+	@Bean
+	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
+		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+		resolver.setContentNegotiationManager(manager);
+
+		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
+
+		resolvers.add(tilesViewResolver());
+		resolvers.add(viewResolver());
+
+		resolver.setViewResolvers(resolvers);
+		return resolver;
+	}
+
+//////////////////////////
+
 	
 	/*
 	 * Configure MessageSource to provide internationalized messages
@@ -70,8 +115,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
  @Bean
 	public SongDAO SongDAO(){
 	    SongDAO template = new SongDAO();
-		DataSource dataSource = getMySQLDriverManagerDatasource();
-		template.setDataSource(dataSource);
+		template.setDataSource(getMySQLDriverManagerDatasource());
 		return template;
 	}
 
@@ -81,8 +125,25 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         return commonsMultipartResolver;
     }
+
     @Bean
     FileValidator fileValidator(){
 		return  new FileValidator();
+	}
+
+	 @Bean
+    @DependsOn("flyway")
+    EntityManagerFactory entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+        bean.setDataSource(getMySQLDriverManagerDatasource());
+        return bean.getObject();
+    }
+
+	@Bean(initMethod = "migrate")
+	Flyway flyway() {
+		Flyway flyway = new Flyway();
+		flyway.setBaselineOnMigrate(true);
+		flyway.setDataSource(getMySQLDriverManagerDatasource());
+		return flyway;
 	}
 }

@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
-import static com.mysuperscore.RondString.RandomString.generateString;
+import static com.mysuperscore.RandString.RandomString.generateString;
 
 @Controller
 @RequestMapping("/")
@@ -76,4 +76,12 @@ public class HomeController {
 	public String uploadStatus() {
 		return "uploadStatus";
 	}
+
+
+
+    @RequestMapping(value = { "/products"}, method = RequestMethod.GET)
+    public String productsPage(ModelMap model) {
+        return "products";
+    }
+
 }
