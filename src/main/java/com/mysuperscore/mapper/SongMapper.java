@@ -15,7 +15,7 @@ public class SongMapper implements org.springframework.jdbc.core.RowMapper<Song>
         song.setComposer(rs.getString("composer"));
         song.setAlbum(rs.getString("album"));
         song.setDescription(rs.getString("description"));
-        //song.setFileName(rs.getString("fileName"));
+        song.setFileName(rs.getString("fileName"));
 
         return song;
     }

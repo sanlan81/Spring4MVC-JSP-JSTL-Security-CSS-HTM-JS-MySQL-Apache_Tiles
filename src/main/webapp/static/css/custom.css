@@ -1,10 +1,13 @@
 .form-container {
   position:fiexd;
+
   width:50%;
-  margin-left: 300px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
+  margin-left: 360px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 0px;
 
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -23,10 +26,11 @@
 .success{
   position:fiexd;
   width:50%;
-  margin-left: 50px;
+  margin-left: 300px;
   margin-top:20px;
   padding: 20px;
-  background-color: #E8E1E1;
+  color: #3c763d;
+  background-color: lightgreen;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -34,9 +38,9 @@
 
 /*/////////////////*/
 
-html{
+/*html{
   background-color:#2F2F2F;
-}
+}*/
 
 body{
   height: 100%;
@@ -44,11 +48,11 @@ body{
 }
 
 
-#header {
-  /* margin-left:20%;*/
+/*#header {
+  !* margin-left:20%;*!
   top: 0px;
   width: 100%;
-  height: 20%;
+  height: 15%;
   position: fixed;
   font-family: 'bgMed',arial,helvetica,sans-serif;
   font-size: 0.6em;
@@ -59,25 +63,26 @@ body{
   border-bottom: 2px solid grey;
   padding-top:20px;
   text-align:center;
-}
+}*/
 
 #footer {
   /*margin-left:20%;*/
-  left: 0px;
-  bottom: 0px;
+ /* left: 0px;
+  bottom: 0px;*/
   width: 100%;
   height: 10%;
-  position: fixed;
+ /* position: fixed;*/
   font-family: 'bgMed',arial,helvetica,sans-serif;
   font-size: 0.6em;
   color: #fff;
-  z-index: 15;
+ /* z-index: 15;*/
   text-transform: uppercase;
   background-color: #272727;
   padding-top:20px;
   text-align:center;
 }
 
+/*
 #sidemenu {
   width: 20%;
   background-color:#2B2B2B;
@@ -119,6 +124,7 @@ body{
   background-color: #635555;
   border-left: 5px solid hsl(180,70%,55%);
 }
+*/
 
 .logo{
   float:left;
@@ -126,15 +132,15 @@ body{
 
 #site-content {
   width: 100%;
-  height: 100%;
+ /* height: 100%;
   overflow: auto;
-  float: left;
+  !*float: left;*!
   z-index: 20;
-  position: fixed;
+  position: fiexd;*/
   min-height: 600px;
   margin-top:10%;
   margin-bottom:10%;
-  margin-left:20%;
+  /*margin-left:20%;*/
   padding-left:10px;
 }
 

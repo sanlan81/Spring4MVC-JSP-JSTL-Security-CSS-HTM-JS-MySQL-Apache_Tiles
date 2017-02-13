@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html>
+<%--<html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -12,7 +12,7 @@
     <link href="<c:url value='/static/css/custom.css' />" rel="stylesheet"></link>
 </head>
 
-<body onload="myFunction()">
+<body onload="myFunction()">--%>
 
 <div class="form-container">
 
@@ -80,7 +80,6 @@
             </div>
         </div>
 
-
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="file" name="file" id="myFile" multiple size="50" onchange="myFunction()">
@@ -89,52 +88,20 @@
                     </div>
                 <p id="demo"></p>
 
-                <script>
-                    function myFunction(){
-                        var x = document.getElementById("myFile");
-                        var txt = "";
-                        if ('files' in x) {
-                            if (x.files.length == 0) {
-                                txt = "Select file.";
-                            } else {
-                                for (var i = 0; i < x.files.length; i++) {
-                                    txt += "<br><strong>" + (i+1) + ". file</strong><br>";
-                                    var file = x.files[i];
-                                    if ('name' in file) {
-                                        txt += "name: " + file.name + "<br>";
-                                    }
-                                    if ('size' in file) {
-                                        txt += "size: " + file.size + " bytes <br>";
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            if (x.value == "") {
-                                txt += "Select  file.";
+               <%-- <script>
 
-                            } else {
-                                txt += "The files property is not supported by your browser!";
-                                txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead.
-                            }
-                        }
-                        document.getElementById("demo").innerHTML = txt;
-                    }
-                </script>
+                </script>--%>
             </div>
         </div>
-
-
-
         <div class="row">
             <div class="form-actions floatRight">
                 <button type="submit" class="btn btn-default">Create</button>
             </div>
         </div>
+        <a href="/">&lt; Back to songs list</a>
     </form:form>
-
-    <a href="/">&lt; Back to songs list</a>
 </div>
-</body>
-</html>
+<%--</body>
+</html>--%>
+<script  src="/static/js.create.js"></script>
 

@@ -11,6 +11,7 @@
 	<title><tiles:getAsString name="title" /></title>
 	<link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/custom.css' />" rel="stylesheet"></link>
+	<script src="/static/js/jquery-3.1.1.min.js"></script>
 </head>
  
 <body>
@@ -18,9 +19,10 @@
 			<tiles:insertAttribute name="header" />
 		</header>
 
-	<%--	<section id="sidemenu">
+		<%--<section id="sidemenu">
 			<tiles:insertAttribute name="menu" />
 		</section>--%>
+
 		<section id="site-content">
 			<tiles:insertAttribute name="body" />
 		</section>
