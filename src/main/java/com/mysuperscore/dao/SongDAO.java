@@ -22,7 +22,7 @@ public class SongDAO implements SongDaoInterface{
                 "title VARCHAR(50) NOT NULL," +
                 "composer VARCHAR(50) NOT NULL," +
                 "album VARCHAR(20) NOT NULL," +
-                "description VARCHAR(250) NOT NULL," +
+                "description VARCHAR(500) NOT NULL," +
                 //"fileName VARCHAR(30) NOT NULL," +
                 "numberOfPages INT(11) default NULL," +
                 "PRIMARY KEY(id) )";

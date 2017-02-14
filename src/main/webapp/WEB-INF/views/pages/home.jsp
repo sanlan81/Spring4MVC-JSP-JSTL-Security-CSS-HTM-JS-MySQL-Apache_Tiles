@@ -16,14 +16,14 @@
             <div class="col-sm-4">
                     ${song.title}<br>
                 <img class="img-rounded" src="/resources/uploads/${song.fileName}"
-                     width="300" height="300" alt="${song.fileName}"/><br><br>
-                    <%--    <td> ${song.id}</td><br>
-                        <td>${song.composer}</td></br>
-                        <td>${song.album}</td><br>
-                        <td>${song.description}</td><br>
-                        <td>${song.numberOfPages}</td><br>
-                        <td>${song.fileName}</td><br>--%>
-                <a class="btn btn-success" href="/update?id=${song.id}">To see this song</a></br></br>
+                     width="300" height="300" alt="${song.fileName}"/><br>
+                         <td>by    ${song.composer}</td><br>
+                        <%--<input type="hidden" name="id" value="" ${song.id}><br>--%>
+                       <%-- <input type="hidden" name="id" value="" ${song.album}><br>
+                        <input type="hidden" name="id" value="" ${song.description}<br>
+                        <input type="hidden" name="id" value="" ${song.numberOfPages}><br>
+                        <input type="hidden" name="id" value="" ${song.fileName}><br>--%>
+                <a class="btn btn-success" href="/${song.id}">To see this song</a></br></br>
                     <%--<td>
                         <a class="btn btn-danger" href="/delete?id=${song.id}">Remove</a>
                     </td>--%>

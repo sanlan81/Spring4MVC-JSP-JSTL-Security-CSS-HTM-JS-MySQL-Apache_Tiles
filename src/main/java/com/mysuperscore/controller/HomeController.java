@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +55,6 @@ public class HomeController {
         if (result.hasErrors()) {
             return "create";
         }
-
 		try {
 			byte[] bytes = file.getBytes();
 			Path path = Paths.get(UPLOADED_FOLDER + newFileName);
@@ -83,25 +83,18 @@ public class HomeController {
         return "products";
     }
 
-	/*@RequestMapping(value = { "/{id}"}, method = RequestMethod.GET)
-	public String homePage(@PathVariable Integer id, ModelMap model) {
-
+	@RequestMapping(value = { "/{id}"}, method = RequestMethod.GET)
+	public String selectOneSong(@PathVariable Integer id, ModelMap model) {
 	    Song song = songDAO.find(id);
 
 		model.addAttribute("song", song);
-		return "home";
-	}*/
+        return "select";
+	}
 
 	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
 	public String homePage(ModelMap model) {
-
 		List<Song> songs = songDAO.findAll();
-
 		model.addAttribute("songs", songs);
 		return "home";
 	}
-
-
-
-
 }

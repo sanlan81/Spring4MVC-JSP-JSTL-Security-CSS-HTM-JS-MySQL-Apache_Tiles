@@ -98,7 +98,7 @@
                 <button type="submit" class="btn btn-default">Create</button>
             </div>
         </div>
-        <a href="/">&lt; Back to songs list</a>
+       <%-- <a href="/">&lt; Back to songs list</a>--%>
     </form:form>
 </div>
 <%--</body>
