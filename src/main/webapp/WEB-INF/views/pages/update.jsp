@@ -1,0 +1,105 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%--<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>New Song Form</title>
+    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/css/custom.css' />" rel="stylesheet"></link>
+</head>
+
+<body onload="myFunction()">--%>
+
+<div class="form-container">
+
+    <h1>Update song  ${song.title}</h1>
+
+    <form:form method="POST"   modelAttribute="song" class="form-horizontal"  enctype="multipart/form-data">
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label col-sm-2" for="title">Title:</label>
+                <div class="col-sm-10">
+                    <form:input type="text" path="title"  name="title" value="${song.title}" class="form-control" id="title" placeholder="Enter song's title"/>
+                    <div class="has-error">
+                        <form:errors path="title" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label col-sm-2" for="composer">Composer:</label>
+                <div class="col-sm-10">
+                    <form:input type="text" path="composer"  name="composer" value="${song.composer}" class="form-control" id="composer" placeholder="Enter composer name"/>
+                    <div class="has-error">
+                        <form:errors path="composer" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label col-sm-2" for="album">Album:</label>
+                <div class="col-sm-10">
+                    <form:input type="text" path="album"  name="album" value="${song.album}" class="form-control" id="album" placeholder="Enter album"/>
+                    <div class="has-error">
+                        <form:errors path="album" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label col-sm-2" for="description">Description:</label>
+                <div class="col-sm-10">
+                    <form:textarea type="text" path="description"  name="Description" value="${song.description}" class="form-control" id="description" placeholder="Describe new song"/>
+                    <div class="has-error">
+                        <form:errors path="description" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="control-label col-sm-2" for="numberOfPages">Number Of Pages:</label>
+                <div class="col-sm-10">
+                    <form:input type="text" path="numberOfPages"  name="numberOfPages" value="${song.numberOfPages}" class="form-control" id="numberOfPages" placeholder="Enter Number Of Pages"/>
+                    <div class="has-error">
+                        <form:errors path="numberOfPages" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="file" name="file" id="myFile" multiple size="50" onchange="myFunction()">
+                <div class="has-error">
+                    <form:errors path="file" class="help-inline"/>
+                </div>
+                <p id="demo"></p>
+
+                    <%-- <script>
+
+                     </script>--%>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-actions floatRight">
+                <button type="submit" class="btn btn-default">update</button>
+            </div>
+        </div>
+    </form:form>
+</div>
+<%--</body>
+</html>--%>
+<script  src="/static/js.create.js"></script>

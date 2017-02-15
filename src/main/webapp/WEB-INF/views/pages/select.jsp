@@ -12,8 +12,8 @@
             </br>
             <img class="img-rounded" src="/resources/uploads/${song.fileName}"
                  width="300" height="300" alt="${song.fileName}"/><br><br>
-            <a class="btn btn-success" href="/update?id=${song.id}">Update</a>
-            <a class="btn btn-danger" href="/delete?id=${song.id}">Remove</a>
+            <a class="btn btn-success" href="/update/${song.id}">Update</a>
+            <a class="btn btn-danger" href="/delete/${song.id}">Remove</a>
         </div>
         <div class="col-sm-6">
             <%--<td> ${song.id}</td><br>--%>
@@ -25,7 +25,5 @@
             <br>
             <%--<td>${song.fileName}</td><br>--%>
         </div>
-
-
     </div>
 </div>

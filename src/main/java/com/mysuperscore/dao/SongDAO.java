@@ -43,8 +43,6 @@ public class SongDAO implements SongDaoInterface{
     }
 
 
-
-
     public void delete(Song song) {
         String SQL = "DELETE  FROM Songs WHERE id = ?";
         jdbcTemplate.update(SQL, song.getId());
@@ -54,8 +52,8 @@ public class SongDAO implements SongDaoInterface{
 
     public void update(Song song) {
 
-        String SQL = "UPDATE Songs SET title = ?,composer = ?,album = ?,description = ?, numberOfPages = ? WHERE id = ?";
-        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(),song.getNumberOfPages(),song.getId());
+        String SQL = "UPDATE Songs SET title = ?,composer = ?,album = ?,description = ?, numberOfPages = ?, fileName = ? WHERE id = ?";
+        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(),song.getNumberOfPages(),song.getFileName(),song.getId());
     }
 
 

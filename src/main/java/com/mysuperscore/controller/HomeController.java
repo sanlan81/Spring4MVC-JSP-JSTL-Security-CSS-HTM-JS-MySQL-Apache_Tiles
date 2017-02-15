@@ -80,13 +80,13 @@ public class HomeController {
 
     @RequestMapping(value = { "/products"}, method = RequestMethod.GET)
     public String productsPage(ModelMap model) {
-        return "products";
+
+		return "products";
     }
 
 	@RequestMapping(value = { "/{id}"}, method = RequestMethod.GET)
 	public String selectOneSong(@PathVariable Integer id, ModelMap model) {
 	    Song song = songDAO.find(id);
-
 		model.addAttribute("song", song);
         return "select";
 	}
@@ -96,5 +96,54 @@ public class HomeController {
 		List<Song> songs = songDAO.findAll();
 		model.addAttribute("songs", songs);
 		return "home";
+	}
+
+	@RequestMapping(value = { "/delete/{id}"}, method = RequestMethod.GET)
+	public String delete(@PathVariable Integer id, ModelMap model) {
+		Song song = songDAO.find(id);
+		songDAO.delete(song);
+		//model.addAttribute("song", song);
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = { "/update/{id}"}, method = RequestMethod.GET)
+	public String update(@PathVariable Integer id, ModelMap model) {
+		Song song = songDAO.find(id);
+		model.addAttribute("song", song);
+		return "update";
+	}
+
+	@RequestMapping(value = { "/update/{id}"},method = RequestMethod.POST)
+	public String updateRegistration(@Valid Song song, BindingResult result,
+									 @PathVariable Integer id,ModelMap model ) {
+
+		MultipartFile file = song.getFile();
+		//fileValidator.validate(song, result);
+		if (result.hasErrors()) {
+			return "update";
+		}
+		if(!file.isEmpty()) {
+			try {
+				String updatingFileName = newFileName;
+				byte[] bytes = file.getBytes();
+				Path newPath = Paths.get(UPLOADED_FOLDER + updatingFileName);
+				Path newPath2 = Paths.get(UPLOADED_FOLDER2 + updatingFileName);
+				Files.write(newPath, bytes);
+				Files.write(newPath2, bytes);
+				song.setFileName(updatingFileName);
+				songDAO.update(song);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}else {
+			Song songDB = songDAO.find(id);
+			song.setFileName(songDB.getFileName());
+			songDAO.update(song);
+		}
+
+		/*model.addAttribute("success", "  " + song.getTitle()
+				+ " !   Updating completed successfully !");*/
+		return "redirect:/{id}";
 	}
 }

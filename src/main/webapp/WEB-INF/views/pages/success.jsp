@@ -7,7 +7,7 @@
 	<link href="<c:url value='/static/css/custom.css' />" rel="stylesheet"></link>
 
 	<div class="success">
-		Confirmation message : new song ${success}
+		Confirmation message : song ${success}
 		<br>
 	<%--	We have also sent you a confirmation mail to your email address : ${song.title}.--%>
 	</div>
