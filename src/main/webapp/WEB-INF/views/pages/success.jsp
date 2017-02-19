@@ -9,5 +9,4 @@
 	<div class="success">
 		Confirmation message : song ${success}
 		<br>
-	<%--	We have also sent you a confirmation mail to your email address : ${song.title}.--%>
 	</div>

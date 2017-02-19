@@ -5,11 +5,9 @@ import com.mysuperscore.dao.SongDAO;
 import com.mysuperscore.validator.FileValidator;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.web.accept.ContentNegotiationManager;
@@ -24,12 +22,14 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 @EnableWebMvc
+@PropertySource("classpath:app.properties")
 @ComponentScan(basePackages = "com.mysuperscore")
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 	
@@ -45,7 +45,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
-////////////////////////////
 	@Bean
 	public TilesConfigurer tilesConfigurer(){
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
@@ -53,9 +52,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 		tilesConfigurer.setCheckRefresh(true);
 		return tilesConfigurer;
 	}
-
-
-
 
 	@Bean
 	public TilesViewResolver tilesViewResolver(){
@@ -76,10 +72,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 		resolver.setViewResolvers(resolvers);
 		return resolver;
 	}
-
-//////////////////////////
-
-	
 	/*
 	 * Configure MessageSource to provide internationalized messages
 	 * 
@@ -104,14 +96,24 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 
+	@Resource
+	private Environment env;
+
+	private static final String PROP_DATABASE_DRIVER = "db.driver";
+	private static final String PROP_DATABASE_PASSWORD = "db.password";
+	private static final String PROP_DATABASE_URL = "db.url";
+	private static final String PROP_DATABASE_USERNAME = "db.username";
+
+
+
 	@Bean
 	public DriverManagerDataSource getMySQLDriverManagerDatasource(){
 
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setPassword("doublebass81");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/sashas_list?useSSL=false");
-		dataSource.setUsername("sanlan81");
+		dataSource.setDriverClassName(env.getRequiredProperty(PROP_DATABASE_DRIVER));
+		dataSource.setUrl(env.getRequiredProperty(PROP_DATABASE_URL));
+		dataSource.setUsername(env.getRequiredProperty(PROP_DATABASE_USERNAME));
+		dataSource.setPassword(env.getRequiredProperty(PROP_DATABASE_PASSWORD));
 		return dataSource;
 	}
  @Bean

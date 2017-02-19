@@ -11,7 +11,6 @@ public class FileValidator implements Validator {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public void validate(Object uploadedFile, Errors errors) {
 
@@ -21,7 +20,9 @@ public class FileValidator implements Validator {
 			errors.rejectValue("file", "uploadForm.salectFile",
 					"Please select a file!");
 		}
-
+		if (song.getFile().getSize() > 5 * 1024 * 1024) { // 5 MB
+			errors.rejectValue("file", "uploadForm.salectFile",
+					"File is too big  max  5 MB!");
+		}
 	}
-
 }

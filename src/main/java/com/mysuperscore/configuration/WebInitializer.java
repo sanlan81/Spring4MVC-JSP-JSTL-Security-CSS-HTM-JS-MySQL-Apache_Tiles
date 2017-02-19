@@ -25,6 +25,7 @@ public class WebInitializer extends
 
 		servlet.setLoadOnStartup(1);
 		servlet.addMapping("/");
+		servlet.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 	}
 
 
@@ -48,6 +49,10 @@ public class WebInitializer extends
 	@Override
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 
+		boolean done = registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+		if (!done) throw new RuntimeException();
+
+
 		// temp file will be uploaded here
 		File uploadDirectory = new File(System.getProperty("java.io.tmpdir"));
 
@@ -59,6 +64,8 @@ public class WebInitializer extends
 		registration.setMultipartConfig(multipartConfigElement);
 
 	}
+
+
 
 
 

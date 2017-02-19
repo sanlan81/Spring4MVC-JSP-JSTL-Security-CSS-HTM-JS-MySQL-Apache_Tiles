@@ -16,14 +16,12 @@
             <a class="btn btn-danger" href="/delete/${song.id}">Remove</a>
         </div>
         <div class="col-sm-6">
-            <%--<td> ${song.id}</td><br>--%>
             <h3>From  album  ${song.album}</h3>
             <br>
             <td>${song.description}</td>
             <br>
             <td>Total : ${song.numberOfPages} pages</td>
             <br>
-            <%--<td>${song.fileName}</td><br>--%>
         </div>
     </div>
 </div>

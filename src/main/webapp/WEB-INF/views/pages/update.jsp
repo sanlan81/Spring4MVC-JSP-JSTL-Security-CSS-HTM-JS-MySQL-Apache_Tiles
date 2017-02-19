@@ -1,18 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<%--<html>
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>New Song Form</title>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/custom.css' />" rel="stylesheet"></link>
-</head>
-
-<body onload="myFunction()">--%>
 
 <div class="form-container">
 
@@ -82,15 +69,11 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <input type="file" name="file" id="myFile" multiple size="50" onchange="myFunction()">
+                <input type="file" name="file" id="myFile" multiple size="50">
                 <div class="has-error">
                     <form:errors path="file" class="help-inline"/>
                 </div>
                 <p id="demo"></p>
-
-                    <%-- <script>
-
-                     </script>--%>
             </div>
         </div>
         <div class="row">
@@ -100,6 +83,5 @@
         </div>
     </form:form>
 </div>
-<%--</body>
-</html>--%>
-<script  src="/static/js.create.js"></script>
+<script  src="/static/js/create.js"></script>
+

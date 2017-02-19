@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -17,7 +18,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static com.mysuperscore.RandString.RandomString.generateString;
@@ -31,7 +33,6 @@ public class HomeController {
     @Autowired
     FileValidator fileValidator;
 
-
     private static String UPLOADED_FOLDER = System.getProperty("user.dir") +"\\src\\main\\webapp\\resources\\uploads\\";
 	private static String UPLOADED_FOLDER2 = System.getProperty("user.dir") +"\\target\\MySuperScore\\resources\\uploads\\";
     private String strAllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -39,7 +40,6 @@ public class HomeController {
 
     @RequestMapping(value = { "/create"},method = RequestMethod.GET)
 	public String newRegistration(ModelMap model) {
-        songDAO.createTable();
 		Song song = new Song();
 		model.addAttribute("song", song);
 		return "create";
@@ -71,38 +71,35 @@ public class HomeController {
 		return "success";
 	}
 
-	/*@GetMapping("/uploadStatus")
-	public String uploadStatus() {
-		return "uploadStatus";
-	}
-*/
-
-
-    @RequestMapping(value = { "/products"}, method = RequestMethod.GET)
-    public String productsPage(ModelMap model) {
-
-		return "products";
-    }
-
 	@RequestMapping(value = { "/{id}"}, method = RequestMethod.GET)
 	public String selectOneSong(@PathVariable Integer id, ModelMap model) {
-	    Song song = songDAO.find(id);
+		Song song = songDAO.find(id);
 		model.addAttribute("song", song);
-        return "select";
+		return "select";
 	}
 
 	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
-	public String homePage(ModelMap model) {
-		List<Song> songs = songDAO.findAll();
-		model.addAttribute("songs", songs);
+	public String homePage(@RequestParam(value="title", required = false) String title,
+						   @RequestParam(value="composer", required = false) String composer,
+						   @RequestParam(value="album", required = false) String albume,
+						   ModelMap model) {
+		songDAO.createTable();
+
+		Map<String, String> filters = new HashMap<>();
+		filters.put("title", title);
+		filters.put("composer", composer);
+		filters.put("album", albume);
+
+		model.addAttribute("songs", songDAO.filter(filters));
+		model.addAttribute("title", title);
+		model.addAttribute("composer", composer);
+		model.addAttribute("album", albume);
 		return "home";
 	}
-
 	@RequestMapping(value = { "/delete/{id}"}, method = RequestMethod.GET)
 	public String delete(@PathVariable Integer id, ModelMap model) {
 		Song song = songDAO.find(id);
 		songDAO.delete(song);
-		//model.addAttribute("song", song);
 		return "redirect:/";
 	}
 
@@ -118,13 +115,14 @@ public class HomeController {
 									 @PathVariable Integer id,ModelMap model ) {
 
 		MultipartFile file = song.getFile();
-		//fileValidator.validate(song, result);
+
 		if (result.hasErrors()) {
 			return "update";
 		}
 		if(!file.isEmpty()) {
 			try {
-				String updatingFileName = newFileName;
+
+				String updatingFileName = ((generateString(new Random(),strAllowedCharacters,20)) + ".jpg");
 				byte[] bytes = file.getBytes();
 				Path newPath = Paths.get(UPLOADED_FOLDER + updatingFileName);
 				Path newPath2 = Paths.get(UPLOADED_FOLDER2 + updatingFileName);
@@ -141,9 +139,6 @@ public class HomeController {
 			song.setFileName(songDB.getFileName());
 			songDAO.update(song);
 		}
-
-		/*model.addAttribute("success", "  " + song.getTitle()
-				+ " !   Updating completed successfully !");*/
 		return "redirect:/{id}";
 	}
 }

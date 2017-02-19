@@ -6,7 +6,9 @@ import com.mysuperscore.model.Song;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SongDAO implements SongDaoInterface{
     private JdbcTemplate jdbcTemplate;
@@ -22,8 +24,8 @@ public class SongDAO implements SongDaoInterface{
                 "title VARCHAR(50) NOT NULL," +
                 "composer VARCHAR(50) NOT NULL," +
                 "album VARCHAR(20) NOT NULL," +
-                "description VARCHAR(500) NOT NULL," +
-                //"fileName VARCHAR(30) NOT NULL," +
+                "description TEXT NOT NULL," +
+                "fileName VARCHAR(30) NOT NULL," +
                 "numberOfPages INT(11) default NULL," +
                 "PRIMARY KEY(id) )";
         jdbcTemplate.execute(SQL);
@@ -36,7 +38,7 @@ public class SongDAO implements SongDaoInterface{
     }
 
 
-   public Song find(Integer id) {
+    public Song find(Integer id) {
         String SQL = "SELECT * FROM Songs WHERE id = ?";
 
         return jdbcTemplate.queryForObject(SQL, new Object[]{id}, new SongMapper());
@@ -63,6 +65,18 @@ public class SongDAO implements SongDaoInterface{
                 new SongMapper());
     }
 
+    public List<Song> filter(Map<String, String> filters) {
+        List<String> expressions = new ArrayList<>();
+        List<Object> parameters = new ArrayList<>();
+        filters.entrySet().stream().filter(entry -> entry.getValue() != null && !entry.getValue().trim().isEmpty()).forEach(entry -> {
+            expressions.add(entry.getKey() + " LIKE ?");
+            parameters.add("%" + entry.getValue() + "%");
+        });
 
+        String expressionsSql = String.join(" AND ", expressions);
+        String SQL = "SELECT * FROM Songs" +
+                (!expressionsSql.isEmpty() ? " WHERE " + expressionsSql : "");
 
+        return jdbcTemplate.query(SQL, parameters.toArray(), new SongMapper());
+    }
 }
