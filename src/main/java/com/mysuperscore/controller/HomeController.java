@@ -116,6 +116,10 @@ public class HomeController {
 
 		MultipartFile file = song.getFile();
 
+		if(file.getSize() >  5 * 1024 * 1024){
+			fileValidator.validate(song, result);
+		}
+
 		if (result.hasErrors()) {
 			return "update";
 		}
