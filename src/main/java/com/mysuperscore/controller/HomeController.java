@@ -145,4 +145,13 @@ public class HomeController {
 		}
 		return "redirect:/{id}";
 	}
+
+
+
+	@RequestMapping(value = { "/login"}, method = RequestMethod.GET)
+	public String login( ModelMap model) {
+		return "login";
+	}
+
+
 }
