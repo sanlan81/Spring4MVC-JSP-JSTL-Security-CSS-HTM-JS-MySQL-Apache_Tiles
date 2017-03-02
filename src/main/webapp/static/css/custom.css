@@ -66,4 +66,12 @@ body{
   padding-left:10px;
 }
 
-
+.weak {
+  color: #FF0000;
+}
+.medium {
+  color: #ffaa00;
+}
+.strong {
+  color: #006400;
+}

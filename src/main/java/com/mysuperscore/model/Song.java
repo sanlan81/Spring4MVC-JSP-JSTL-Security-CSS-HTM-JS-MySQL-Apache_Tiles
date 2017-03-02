@@ -34,6 +34,18 @@ public class Song implements Serializable {
     @NotNull
     private Integer numberOfPages;
 
+    private String fileName;
+
+    private MultipartFile file;
+
+    private List<String> subjects = new ArrayList<String>();
+
+	public MultipartFile getFile() { return file; }
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
     public String getFileName() {
         return fileName;
     }
@@ -41,21 +53,6 @@ public class Song implements Serializable {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
-    private String fileName;
-
-    private MultipartFile file;
-
-	public MultipartFile getFile() {
-
-        return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
-
-    private List<String> subjects = new ArrayList<String>();
 
     public int getId() {
         return id;

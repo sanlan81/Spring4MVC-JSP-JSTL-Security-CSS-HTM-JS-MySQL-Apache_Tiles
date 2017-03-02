@@ -1,4 +1,4 @@
-package com.mysuperscore.RandString;
+package com.mysuperscore.utils;
 
 import java.util.Random;
 
