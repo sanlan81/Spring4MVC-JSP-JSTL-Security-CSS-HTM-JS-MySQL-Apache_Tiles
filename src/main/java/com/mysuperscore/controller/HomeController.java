@@ -58,7 +58,6 @@ public class HomeController {
         }
         try {
             byte[] bytes = file.getBytes();
-            System.out.println(song.getFile().getContentType());
             Path path = Paths.get(UPLOADED_FOLDER + newFileName);
             Path path2 = Paths.get(UPLOADED_FOLDER2 + newFileName);
             Files.write(path, bytes);
