@@ -122,6 +122,25 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return template;
     }
 
+    //heroku
+   /* @Bean
+    public DriverManagerDataSource getMySQLDriverManagerDatasource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+        DriverManagerDataSource basicDataSource = new DriverManagerDataSource();
+        //BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+
+        return basicDataSource;
+    }*/
+
+
+
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
         return new CommonsMultipartResolver();

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,11 +34,18 @@ public class HomeController {
     @Autowired
     FileValidator fileValidator;
 
-    private static String UPLOADED_FOLDER = System.getProperty("user.dir") + "\\src\\main\\webapp\\resources\\uploads\\";
-    private static String UPLOADED_FOLDER2 = System.getProperty("user.dir") + "\\target\\MySuperScore\\resources\\uploads\\";
+    @Autowired
+    private HttpServletRequest request;
+
+   // private static String UPLOADED_FOLDER = System.getProperty("user.dir") + "\\src\\main\\webapp\\resources\\uploads\\";
+    //private static String UPLOADED_FOLDER2 = System.getProperty("user.dir") + "\\target\\MySuperScore\\resources\\uploads\\";
     private String strAllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private String newFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
     private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+
+    //String pathForWorkingProject = request.getServletContext().getRealPath("\\src\\main\\webapp\\resources\\uploads\\");
+
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
     public String newRegistration(ModelMap model) {
@@ -58,10 +66,10 @@ public class HomeController {
         }
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + newFileName);
-            Path path2 = Paths.get(UPLOADED_FOLDER2 + newFileName);
+            Path path = Paths.get(request.getServletContext().getRealPath("\\resources\\uploads\\")+ "\\" +newFileName);
+            // Path path2 = Paths.get(UPLOADED_FOLDER2 + newFileName);
             Files.write(path, bytes);
-            Files.write(path2, bytes);
+           // Files.write(path2, bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,6 +93,11 @@ public class HomeController {
                            @RequestParam(value = "album", required = false) String albume,
                            ModelMap model) {
         songDaoJdbc.createTable();
+       /* songDaoJdbc.createTableUsers();
+        songDaoJdbc.createTableUsersRoles();
+        songDaoJdbc.createTablePersistentLogins();*/
+
+
 
         Map<String, String> filters = new HashMap<>();
         filters.put("title", title);
@@ -135,10 +148,10 @@ public class HomeController {
             try {
                 String updatingFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
                 byte[] bytes = file.getBytes();
-                Path newPath = Paths.get(UPLOADED_FOLDER + updatingFileName);
-                Path newPath2 = Paths.get(UPLOADED_FOLDER2 + updatingFileName);
+                Path newPath = Paths.get(request.getServletContext().getRealPath("/resources/uploads/")+ "\\" + updatingFileName);
+               // Path newPath2 = Paths.get(UPLOADED_FOLDER2 + updatingFileName);
                 Files.write(newPath, bytes);
-                Files.write(newPath2, bytes);
+               // Files.write(newPath2, bytes);
                 song.setFileName(updatingFileName);
                 songDaoJdbc.update(song);
             } catch (IOException e) {
@@ -151,10 +164,5 @@ public class HomeController {
             songDaoJdbc.update(song);
         }
         return "redirect:/{id}";
-    }
-
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public String login(ModelMap model) {
-        return "login";
     }
 }

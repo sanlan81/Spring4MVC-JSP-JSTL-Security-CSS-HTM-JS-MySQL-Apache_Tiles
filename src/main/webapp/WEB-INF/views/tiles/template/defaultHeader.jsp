@@ -15,6 +15,7 @@
         <ul class="nav navbar-nav navbar-right">
 
             <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="${pageContext.request.contextPath}/registration"><span class="glyphicon glyphicon-plus-sign"></span> Sign up</a></li>
         </ul>
     </div>
 </nav>

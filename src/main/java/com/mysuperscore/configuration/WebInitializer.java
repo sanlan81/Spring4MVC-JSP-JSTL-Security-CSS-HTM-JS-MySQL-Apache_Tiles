@@ -52,7 +52,6 @@ public class WebInitializer extends
 		boolean done = registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 		if (!done) throw new RuntimeException();
 
-
 		// temp file will be uploaded here
 		File uploadDirectory = new File(System.getProperty("java.io.tmpdir"));
 
@@ -64,11 +63,4 @@ public class WebInitializer extends
 		registration.setMultipartConfig(multipartConfigElement);
 
 	}
-
-
-
-
-
-
-
 }

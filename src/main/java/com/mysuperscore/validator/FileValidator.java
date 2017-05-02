@@ -1,6 +1,7 @@
 package com.mysuperscore.validator;
 
 import com.mysuperscore.model.Song;
+import com.mysuperscore.model.User;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -32,6 +33,19 @@ public class FileValidator implements Validator {
 				&& !song.getFile().getContentType().equals("image/svg+xml")) {
 			errors.rejectValue("file", "uploadForm.selectFile",
 					"File has another type.Please select jpeg, png or svg+xml");
+		}
+	}
+
+	public void validateUser(Object newUser, Errors errors) {
+		User user = (User) newUser;
+		String password = user.getPassword();
+		String passwordConfirm = user.getPasswordConfirm();
+
+		if (!password.equals(passwordConfirm)) {
+			user.setPassword("");
+			user.setPasswordConfirm("");
+			errors.rejectValue("passwordConfirm", "password",
+					"Passwords are not equal!");
 		}
 	}
 }

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.mysuperscore.model.CheckPassword;
 import com.mysuperscore.utils.PasswordChecker;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,5 +27,10 @@ public class LoginController {
             checkPassword.strength = passwordChecker.getStrength(password);
         }
         return gson.toJson(checkPassword);
+    }
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login(ModelMap model) {
+        return "login";
     }
 }

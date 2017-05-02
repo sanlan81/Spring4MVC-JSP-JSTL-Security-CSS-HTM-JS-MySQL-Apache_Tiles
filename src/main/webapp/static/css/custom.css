@@ -75,3 +75,25 @@ body{
 .strong {
   color: #006400;
 }
+
+
+.form-container-registration {
+  width:40%;
+  margin-left: 404px;
+  background-color: #e7e7e7;
+  margin-top: 110px;
+  margin-bottom: 0px;
+  padding: 40px;
+  border: 1px solid #737373;
+  border-radius: 4px;
+}
+.form-container-login {
+  width:40%;
+  margin-left: 404px;
+  background-color: #e7e7e7;
+  margin-top: 110px;
+  margin-bottom: 0px;
+  padding: 40px;
+  border: 1px solid #737373;
+  border-radius: 4px;
+}

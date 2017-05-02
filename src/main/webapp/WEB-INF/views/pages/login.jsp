@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 
 <div id="mainWrapper">
-    <div class="form-container">
+    <div class="form-container-login">
         <div class="login-card">
             <div class="login-form">
                 <c:url var="loginUrl" value="/login" />
@@ -31,9 +31,6 @@
                     </div>
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label>
-                        <form:password path="password" onkeyup="doAjax()"/>
-                        <span style="float: right" id="strengthValue">
-                        </span>
                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
                     </div>
 
