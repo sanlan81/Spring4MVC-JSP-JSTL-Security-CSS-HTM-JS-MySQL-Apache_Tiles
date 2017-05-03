@@ -2,6 +2,7 @@ package com.mysuperscore.dao;
 
 
 import com.mysuperscore.mapper.SongMapper;
+import com.mysuperscore.mapper.UserMapper;
 import com.mysuperscore.model.Song;
 import com.mysuperscore.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -78,13 +79,21 @@ public class SongDaoJDBC implements SongDao {
         return jdbcTemplate.queryForObject(SQL, new Object[]{id}, new SongMapper());
     }
 
+    @Override
+    public User findUsername(String name) {
+        String SQL;
+        SQL = "SELECT * FROM Users WHERE username = \"\"";
+        StringBuffer sb = new StringBuffer(SQL);
+        SQL = sb.insert(38, name).toString();
+        return jdbcTemplate.queryForObject(SQL, new Object[]{}, new UserMapper());
+    }
+
 
     public void delete(Song song) {
         String SQL = "DELETE  FROM Songs WHERE id = ?";
         jdbcTemplate.update(SQL, song.getId());
         System.out.println("DELETE Song with ID = " + song.getId());
     }
-
 
     public void update(Song song) {
 

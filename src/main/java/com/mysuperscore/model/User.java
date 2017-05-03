@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class User implements Serializable{
-
+    private int Id ;
     @Size(min = 5, max = 10)
     @NotNull
     private String username;
@@ -15,6 +15,14 @@ public class User implements Serializable{
     @NotEmpty
     private String passwordConfirm;
     private int tinyint;
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
 
     public String getUsername() {
         return username;
