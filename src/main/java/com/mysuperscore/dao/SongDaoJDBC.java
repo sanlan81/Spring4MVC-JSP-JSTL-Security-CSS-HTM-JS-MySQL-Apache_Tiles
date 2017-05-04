@@ -1,22 +1,31 @@
 package com.mysuperscore.dao;
 
 
+import com.mysql.jdbc.PreparedStatement;
 import com.mysuperscore.mapper.SongMapper;
-import com.mysuperscore.mapper.UserMapper;
 import com.mysuperscore.model.Song;
 import com.mysuperscore.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class SongDaoJDBC implements SongDao {
-    private JdbcTemplate jdbcTemplate;
 
+    private JdbcTemplate jdbcTemplate;
+    Connection c = null;
 
     public void setDataSource(DataSource dataSource) {
+        try {
+            c = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -69,7 +78,7 @@ public class SongDaoJDBC implements SongDao {
 
     public void create(Song song) {
         String SQL = "INSERT INTO Songs (title, composer, album, description, numberOfPages,fileName) VALUES (?, ?, ?, ?, ?,?)";
-        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(),song.getNumberOfPages(),song.getFileName());
+        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(), song.getNumberOfPages(), song.getFileName());
     }
 
 
@@ -81,13 +90,41 @@ public class SongDaoJDBC implements SongDao {
 
     @Override
     public User findUsername(String name) {
-        String SQL;
-        SQL = "SELECT * FROM Users WHERE username = \"\"";
-        StringBuffer sb = new StringBuffer(SQL);
-        SQL = sb.insert(38, name).toString();
-        return jdbcTemplate.queryForObject(SQL, new Object[]{}, new UserMapper());
-    }
 
+        String SQL = "SELECT * FROM Users WHERE username = ?";
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = (PreparedStatement) c.prepareStatement(SQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            preparedStatement.setString(1, name);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        ResultSet rs = null;
+
+        User user = new User();
+        try {
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+
+                user.setId(Integer.parseInt(rs.getString("id")));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setPasswordConfirm(rs.getString("passwordConfirm"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
 
     public void delete(Song song) {
         String SQL = "DELETE  FROM Songs WHERE id = ?";

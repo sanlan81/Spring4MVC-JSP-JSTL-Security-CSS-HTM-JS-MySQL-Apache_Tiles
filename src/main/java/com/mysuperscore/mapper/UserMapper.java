@@ -19,4 +19,6 @@ public class UserMapper implements org.springframework.jdbc.core.RowMapper<User>
             user.setTinyint(rs.getInt("1"));
             return user;
         }
+
+
 }

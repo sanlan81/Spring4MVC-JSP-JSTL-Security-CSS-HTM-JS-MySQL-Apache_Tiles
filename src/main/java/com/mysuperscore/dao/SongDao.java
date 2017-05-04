@@ -4,6 +4,7 @@ package com.mysuperscore.dao;
 import com.mysuperscore.model.Song;
 import com.mysuperscore.model.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 interface SongDao {
@@ -12,5 +13,6 @@ interface SongDao {
      void delete(Song song);
      List<Song> findAll();
      Song find(Integer id);
-     User findUsername(String name);
+     User findUsername(String name) throws SQLException;
+
 }

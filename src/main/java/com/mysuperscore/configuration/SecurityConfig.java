@@ -2,6 +2,7 @@ package com.mysuperscore.configuration;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,16 +16,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //@Autowired
-   // @Qualifier("customUserDetailsService")
+    @Autowired
+    @Qualifier("customUserDetailsService")
     UserDetailsService userDetailsService;
+
+   /* @Resource
+    UserDetailsServiceDefault userDetailsService;*/
 
     ///2
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-      // auth.userDetailsService(userDetailsService);
+       auth.userDetailsService(userDetailsService);
         //  auth.inMemoryAuthentication().withUser("bill").password("abc123").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password("root123").roles("ADMIN");
+      //  auth.inMemoryAuthentication().withUser("admin").password("root123").roles("ADMIN");
        // auth.inMemoryAuthentication().withUser("dba").password("root123").roles("ADMIN","DBA");
     }
 
@@ -34,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                // .antMatchers("/bill*").access("hasRole('USER')")
-                .antMatchers("/admin*").access("hasRole('ADMIN')")
+                .antMatchers("/admin*").access("hasRole('USER')")
                 //.antMatchers("/db*").access("hasRole('ADMIN') and hasRole('DBA')")
                 .and().formLogin()
                 .and().rememberMe().rememberMeParameter("remember-me").tokenValiditySeconds(86400)
@@ -51,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/").access("hasRole('ADMIN')")
-                .antMatchers("/create").access("hasRole('ADMIN')")
+                .antMatchers("/").access("hasRole('USER')")
+                .antMatchers("/create").access("hasRole('USER')")
                 .antMatchers("/resources*").permitAll()
                 .anyRequest().permitAll()
                 .and();
