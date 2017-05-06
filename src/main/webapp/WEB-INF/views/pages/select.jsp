@@ -10,8 +10,8 @@
         <div class="col-sm-4">
             <td> by ${song.composer}</td>
             </br>
-            <img class="img-rounded" src="/resources/uploads/${song.fileName}"
-                 width="300" height="300" alt="${song.fileName}"/><br><br>
+            <img class="img-rounded" src="/image/${song.id}"
+                 width="300" height="300" /><br><br>
             <a class="btn btn-success" href="/update/${song.id}">Update</a>
             <a class="btn btn-danger" href="/delete/${song.id}">Remove</a>
         </div>

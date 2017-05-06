@@ -14,16 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-
-import static com.mysuperscore.utils.RandomString.generateString;
 
 @Controller
 @RequestMapping("/")
@@ -37,15 +32,9 @@ public class HomeController {
     @Autowired
     private HttpServletRequest request;
 
-   // private static String UPLOADED_FOLDER = System.getProperty("user.dir") + "\\src\\main\\webapp\\resources\\uploads\\";
-    //private static String UPLOADED_FOLDER2 = System.getProperty("user.dir") + "\\target\\MySuperScore\\resources\\uploads\\";
-    private String strAllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private String newFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
+    //private String strAllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+   // private String newFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
     private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
-
-
-    //String pathForWorkingProject = request.getServletContext().getRealPath("\\src\\main\\webapp\\resources\\uploads\\");
-
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
     public String newRegistration(ModelMap model) {
@@ -64,19 +53,24 @@ public class HomeController {
         if (result.hasErrors()) {
             return "create";
         }
+
+        byte[] bytes = new byte[0];
+
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(request.getServletContext().getRealPath("\\resources\\uploads\\")+ "\\" +newFileName);
-            // Path path2 = Paths.get(UPLOADED_FOLDER2 + newFileName);
-            Files.write(path, bytes);
-           // Files.write(path2, bytes);
+            bytes = file.getBytes();
+            //Path path = Paths.get(request.getServletContext().getRealPath("\\resources\\uploads\\") + "\\" + newFileName);
+            // Files.write(path, bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        song.setFileName(newFileName);
+        //song.setFileName(newFileName);
+        song.setData(bytes);
+        song.setMimeType(file.getContentType());
+
         songDaoJdbc.create(song);
+
         model.addAttribute("success", "  " + song.getTitle()
-                + " !   Registration completed successfully and your file " + newFileName + " was loaded successfully!");
+                + " !   Registration completed successfully and your file " + song.getData() + " was loaded successfully!");
         return "success";
     }
 
@@ -93,12 +87,6 @@ public class HomeController {
                            @RequestParam(value = "album", required = false) String albume,
                            ModelMap model) {
         songDaoJdbc.createTable();
-       /* songDaoJdbc.createTableUsers();
-        songDaoJdbc.createTableUsersRoles();
-        songDaoJdbc.createTablePersistentLogins();*/
-
-
-
         Map<String, String> filters = new HashMap<>();
         filters.put("title", title);
         filters.put("composer", composer);
@@ -118,6 +106,16 @@ public class HomeController {
         return "redirect:/";
     }
 
+
+    @RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
+    public void getImage(@PathVariable("id") int id, HttpServletResponse response) throws IOException {
+        Song song = songDaoJdbc.findImageById(id);
+        response.setContentType(song.getMimeType());
+        response.setContentLength(song.getData().length);
+        response.getOutputStream().write(song.getData());
+        response.getOutputStream().close();
+    }
+
     @RequestMapping(value = {"/update/{id}"}, method = RequestMethod.GET)
     public String update(@PathVariable Integer id, ModelMap model) {
         Song song = songDaoJdbc.find(id);
@@ -131,36 +129,33 @@ public class HomeController {
 
         MultipartFile file = song.getFile();
 
-        if (file.getSize() > MAX_FILE_SIZE) {
-            fileValidator.validate(song, result);
-        }
+        if (file.getSize() > MAX_FILE_SIZE) {fileValidator.validate(song, result);}
 
-        if (result.hasErrors()) {
-            return "update";
-        }
+        if (result.hasErrors()) {return "update";}
 
         if (!file.isEmpty()) {
             if (!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")
                     && !file.getContentType().equals("image/svg+xml")) {
-                        fileValidator.validate(song, result);
-                        return "update";
-                    }
+                fileValidator.validate(song, result);
+                return "update";
+            }
+            byte[] bytes;
             try {
-                String updatingFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
-                byte[] bytes = file.getBytes();
-                Path newPath = Paths.get(request.getServletContext().getRealPath("/resources/uploads/")+ "\\" + updatingFileName);
-               // Path newPath2 = Paths.get(UPLOADED_FOLDER2 + updatingFileName);
-                Files.write(newPath, bytes);
-               // Files.write(newPath2, bytes);
-                song.setFileName(updatingFileName);
+               // String updatingFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
+                 bytes = file.getBytes();
+               // Path newPath = Paths.get(request.getServletContext().getRealPath("/resources/uploads/") + "\\" + updatingFileName);
+               // Files.write(newPath, bytes);
+                song.setData(bytes);
+                song.setMimeType(file.getContentType());
                 songDaoJdbc.update(song);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         } else {
-            Song songDB = songDaoJdbc.find(id);
-            song.setFileName(songDB.getFileName());
+            Song songDB = songDaoJdbc.findImageById(id);
+            song.setData(songDB.getData());
+            song.setMimeType(songDB.getMimeType());
             songDaoJdbc.update(song);
         }
         return "redirect:/{id}";

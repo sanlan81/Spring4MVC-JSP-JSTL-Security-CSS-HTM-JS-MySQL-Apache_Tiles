@@ -1,12 +1,12 @@
 package com.mysuperscore.mapper;
 
-
 import com.mysuperscore.model.Song;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SongMapper implements org.springframework.jdbc.core.RowMapper<Song> {
+public class SongMapper implements RowMapper<Song> {
     public Song mapRow(ResultSet rs, int rowNum) throws SQLException {
         Song song = new Song();
         song.setId(rs.getInt("id"));
@@ -15,7 +15,8 @@ public class SongMapper implements org.springframework.jdbc.core.RowMapper<Song>
         song.setComposer(rs.getString("composer"));
         song.setAlbum(rs.getString("album"));
         song.setDescription(rs.getString("description"));
-        song.setFileName(rs.getString("fileName"));
+        //song.setData(rs.getBytes("data"));
+        //song.setMimeType(rs.getString("mimeType"));
 
         return song;
     }

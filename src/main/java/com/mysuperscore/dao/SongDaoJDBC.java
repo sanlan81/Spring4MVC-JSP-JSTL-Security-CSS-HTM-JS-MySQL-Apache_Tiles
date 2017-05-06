@@ -2,6 +2,7 @@ package com.mysuperscore.dao;
 
 
 import com.mysql.jdbc.PreparedStatement;
+import com.mysuperscore.mapper.ImageMapper;
 import com.mysuperscore.mapper.SongMapper;
 import com.mysuperscore.model.Song;
 import com.mysuperscore.model.User;
@@ -36,8 +37,12 @@ public class SongDaoJDBC implements SongDao {
                 "composer VARCHAR(50) NOT NULL," +
                 "album VARCHAR(20) NOT NULL," +
                 "description TEXT NOT NULL," +
-                "fileName VARCHAR(30) NOT NULL," +
+                /*"fileName VARCHAR(30) NOT NULL," +*/
                 "numberOfPages INT(11) default NULL," +
+                //
+                "data longblob ," +
+                "mime varchar(50) default NULL," +
+                //
                 "PRIMARY KEY(id) )";
         jdbcTemplate.execute(SQL);
     }
@@ -77,8 +82,8 @@ public class SongDaoJDBC implements SongDao {
     }
 
     public void create(Song song) {
-        String SQL = "INSERT INTO Songs (title, composer, album, description, numberOfPages,fileName) VALUES (?, ?, ?, ?, ?,?)";
-        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(), song.getNumberOfPages(), song.getFileName());
+        String SQL = "INSERT INTO Songs (title, composer, album, description, numberOfPages,data , mime) VALUES (?, ?, ?, ?, ?,?,?)";
+        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(), song.getNumberOfPages(), song.getData(), song.getMimeType());
     }
 
 
@@ -86,6 +91,11 @@ public class SongDaoJDBC implements SongDao {
         String SQL = "SELECT * FROM Songs WHERE id = ?";
 
         return jdbcTemplate.queryForObject(SQL, new Object[]{id}, new SongMapper());
+    }
+
+    public Song findImageById(Integer id) {
+        String SQL = "SELECT * FROM Songs WHERE id = ?";
+        return jdbcTemplate.queryForObject(SQL, new Object[]{id}, new ImageMapper());
     }
 
     @Override
@@ -134,16 +144,16 @@ public class SongDaoJDBC implements SongDao {
 
     public void update(Song song) {
 
-        String SQL = "UPDATE Songs SET title = ?,composer = ?,album = ?,description = ?, numberOfPages = ?, fileName = ? WHERE id = ?";
-        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(),song.getNumberOfPages(),song.getFileName(),song.getId());
+        String SQL = "UPDATE Songs SET title = ?,composer = ?,album = ?,description = ?, numberOfPages = ?, data = ?, mime = ? WHERE id = ?";
+        jdbcTemplate.update(SQL, song.getTitle(), song.getComposer(), song.getAlbum(), song.getDescription(),song.getNumberOfPages(),song.getData(), song.getMimeType(), song.getId());
     }
 
 
-    public List<Song> findAll() {
+  /*  public List<Song> findAll() {
         String SQL = "SELECT * FROM Songs";
         return jdbcTemplate.query(SQL,
                 new SongMapper());
-    }
+    }*/
 
     public List<Song> filter(Map<String, String> filters) {
         List<String> expressions = new ArrayList<>();
@@ -157,7 +167,8 @@ public class SongDaoJDBC implements SongDao {
         String SQL = "SELECT * FROM Songs" +
                 (!expressionsSql.isEmpty() ? " WHERE " + expressionsSql : "");
 
-        return jdbcTemplate.query(SQL, parameters.toArray(), new SongMapper());
+        List<Song> query = jdbcTemplate.query(SQL, parameters.toArray(), new SongMapper());
+        return query;
     }
 
     public void createUser(User user) {

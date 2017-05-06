@@ -4,11 +4,13 @@ package com.mysuperscore.model;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -32,9 +34,31 @@ public class Song implements Serializable {
     @NotNull
     private Integer numberOfPages;
 
-    private String fileName;
+    //private String fileName;
 
     private MultipartFile file;
+
+
+    private String mimeType;
+
+    @Lob
+    private byte[] data;
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 
     private List<String> subjects = new ArrayList<String>();
 
@@ -44,13 +68,13 @@ public class Song implements Serializable {
 		this.file = file;
 	}
 
-    public String getFileName() {
+    /*public String getFileName() {
         return fileName;
     }
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
+    }*/
 
     public int getId() {
         return id;
@@ -109,5 +133,19 @@ public class Song implements Serializable {
         this.subjects = subjects;
     }
 
-
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", composer='" + composer + '\'' +
+                ", description='" + description + '\'' +
+                ", album='" + album + '\'' +
+                ", numberOfPages=" + numberOfPages +
+                ", file=" + file +
+                ", mimeType='" + mimeType + '\'' +
+                ", data=" + Arrays.toString(data) +
+                ", subjects=" + subjects +
+                '}';
+    }
 }
