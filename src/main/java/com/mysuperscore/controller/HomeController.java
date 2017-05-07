@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -23,17 +22,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class HomeController {
+
     @Autowired
     SongDaoJDBC songDaoJdbc;
 
     @Autowired
     FileValidator fileValidator;
 
-    @Autowired
-    private HttpServletRequest request;
-
-    //private String strAllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   // private String newFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
     private static final int MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
@@ -46,31 +41,26 @@ public class HomeController {
     @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     public String saveRegistration(@Valid Song song,
                                    BindingResult result, ModelMap model) {
-
         MultipartFile file = song.getFile();
         fileValidator.validate(song, result);
 
         if (result.hasErrors()) {
             return "create";
         }
-
         byte[] bytes = new byte[0];
 
         try {
             bytes = file.getBytes();
-            //Path path = Paths.get(request.getServletContext().getRealPath("\\resources\\uploads\\") + "\\" + newFileName);
-            // Files.write(path, bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //song.setFileName(newFileName);
         song.setData(bytes);
         song.setMimeType(file.getContentType());
 
         songDaoJdbc.create(song);
 
         model.addAttribute("success", "  " + song.getTitle()
-                + " !   Registration completed successfully and your file " + song.getData() + " was loaded successfully!");
+                + " !   Registration completed successfully and your file  was loaded successfully!");
         return "success";
     }
 
@@ -129,10 +119,12 @@ public class HomeController {
 
         MultipartFile file = song.getFile();
 
-        if (file.getSize() > MAX_FILE_SIZE) {fileValidator.validate(song, result);}
-
-        if (result.hasErrors()) {return "update";}
-
+        if (file.getSize() > MAX_FILE_SIZE) {
+            fileValidator.validate(song, result);
+        }
+        if (result.hasErrors()) {
+            return "update";
+        }
         if (!file.isEmpty()) {
             if (!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")
                     && !file.getContentType().equals("image/svg+xml")) {
@@ -141,10 +133,7 @@ public class HomeController {
             }
             byte[] bytes;
             try {
-               // String updatingFileName = ((generateString(new Random(), strAllowedCharacters, 20)) + ".jpg");
-                 bytes = file.getBytes();
-               // Path newPath = Paths.get(request.getServletContext().getRealPath("/resources/uploads/") + "\\" + updatingFileName);
-               // Files.write(newPath, bytes);
+                bytes = file.getBytes();
                 song.setData(bytes);
                 song.setMimeType(file.getContentType());
                 songDaoJdbc.update(song);

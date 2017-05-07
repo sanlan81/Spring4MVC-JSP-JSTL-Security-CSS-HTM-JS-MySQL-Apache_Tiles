@@ -1,6 +1,5 @@
 package com.mysuperscore.model;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,31 +12,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class Song implements Serializable {
 
     private int id;
 
-    @Size(min=3, max=30)
+    @Size(min = 3, max = 30)
     private String title;
 
-    @Size(min=3, max=30)
+    @Size(min = 3, max = 30)
     private String composer;
 
     @NotEmpty
     private String description;
 
-    @Size(min=3, max=20)
+    @Size(min = 3, max = 20)
     private String album;
 
     @Min(1)
     @NotNull
     private Integer numberOfPages;
 
-    //private String fileName;
-
     private MultipartFile file;
-
 
     private String mimeType;
 
@@ -62,19 +57,13 @@ public class Song implements Serializable {
 
     private List<String> subjects = new ArrayList<String>();
 
-	public MultipartFile getFile() { return file; }
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
-
-    /*public String getFileName() {
-        return fileName;
+    public MultipartFile getFile() {
+        return file;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }*/
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public int getId() {
         return id;

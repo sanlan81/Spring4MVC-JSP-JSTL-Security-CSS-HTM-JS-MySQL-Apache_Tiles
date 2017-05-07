@@ -1,13 +1,14 @@
 package com.mysuperscore.model;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable {
 
-    private int Id ;
+    private int Id;
 
     @Size(min = 5, max = 10)
     @NotNull

@@ -11,6 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -33,9 +35,8 @@ import java.util.List;
 @ComponentScan(basePackages = "com.mysuperscore")
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
-    /*
-     * Configure View Resolver
-     */
+
+    //Configure View Resolver
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -71,11 +72,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         resolver.setViewResolvers(resolvers);
         return resolver;
     }
-    /*
-	 * Configure MessageSource to provide internationalized messages
-	 * 
-	 */
 
+    //Configure MessageSource to provide internationalized messages
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -83,10 +81,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
-    /*
-     * Configure ResourceHandlers to serve static resources like CSS/ Javascript etc...
-     *
-     */
+    //Configure ResourceHandlers to serve static resources like CSS/ Javascript etc...
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
@@ -122,25 +117,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return template;
     }
 
-    //heroku
-   /* @Bean
-    public DriverManagerDataSource getMySQLDriverManagerDatasource() throws URISyntaxException {
-        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-        DriverManagerDataSource basicDataSource = new DriverManagerDataSource();
-        //BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl(dbUrl);
-        basicDataSource.setUsername(username);
-        basicDataSource.setPassword(password);
-
-        return basicDataSource;
-    }*/
-
-
-
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
         return new CommonsMultipartResolver();
@@ -149,5 +125,11 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     FileValidator fileValidator() {
         return new FileValidator();
+    }
+
+    @Bean
+
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

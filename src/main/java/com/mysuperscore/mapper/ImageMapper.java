@@ -12,7 +12,6 @@ public class ImageMapper implements RowMapper<Song> {
         Song song = new Song();
         song.setId(rs.getInt("id"));
         song.setData(rs.getBytes("data"));
-
         return song;
     }
 }

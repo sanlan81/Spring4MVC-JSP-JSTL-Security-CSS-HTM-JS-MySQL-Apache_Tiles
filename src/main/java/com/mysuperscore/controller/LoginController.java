@@ -37,39 +37,16 @@ public class LoginController {
     }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public String login( ModelMap model) {
+    public String login(ModelMap model) {
 
         return "login";
     }
 
-    @RequestMapping(value = { "/login"}, method = RequestMethod.POST)
-    public String loginGood( ModelMap model) {
+    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+    public String loginGood(ModelMap model) {
 
         return "redirect:/";
     }
-
-    /////////////////////////////////////
-
-    /*@RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
-        return "admin";
-    }*/
-
-    /*@RequestMapping(value = "/db", method = RequestMethod.GET)
-    public String dbaPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
-        return "dba";
-    }*/
-
-    /*@RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "welcome";
-    }*/
 
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
@@ -77,12 +54,12 @@ public class LoginController {
         return "accessDenied";
     }
 
-    private String getPrincipal(){
+    private String getPrincipal() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
+            userName = ((UserDetails) principal).getUsername();
         } else {
             userName = principal.toString();
         }

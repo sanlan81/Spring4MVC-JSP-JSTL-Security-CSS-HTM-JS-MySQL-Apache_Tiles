@@ -15,6 +15,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/")
 public class RegistrationController {
+
     @Autowired
     SongDaoJDBC songDaoJdbc;
 
@@ -32,16 +33,14 @@ public class RegistrationController {
     public String saveRegistration(@Valid User user,
                                    BindingResult result, ModelMap model) {
 
-
         fileValidator.validateUser(user, result);
-
 
         if (result.hasErrors()) {
             return "registration";
         }
         songDaoJdbc.createTableUsers();
+        user.setTinyint(1);
         songDaoJdbc.createUser(user);
         return "login";
     }
-
 }

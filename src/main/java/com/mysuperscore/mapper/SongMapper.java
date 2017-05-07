@@ -15,9 +15,6 @@ public class SongMapper implements RowMapper<Song> {
         song.setComposer(rs.getString("composer"));
         song.setAlbum(rs.getString("album"));
         song.setDescription(rs.getString("description"));
-        //song.setData(rs.getBytes("data"));
-        //song.setMimeType(rs.getString("mimeType"));
-
         return song;
     }
 }

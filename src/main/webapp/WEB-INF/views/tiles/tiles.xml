@@ -61,6 +61,4 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/registration.jsp" />
     </definition>
 
-
-
 </tiles-definitions>

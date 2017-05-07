@@ -28,9 +28,10 @@
         <c:forEach items="${songs}" var="song">
             <div class="col-sm-4">
                     ${song.title}<br>
-                <img class="img-rounded"   src="/image/${song.id}"
-                     width="300" height="300" /><br>
-                <td>by    ${song.composer}</td><br>
+                <img class="img-rounded" src="/image/${song.id}"
+                     width="300" height="300"/><br>
+                <td>by ${song.composer}</td>
+                <br>
                 <a class="btn btn-success" href="/${song.id}">To see this song</a></br></br>
             </div>
         </c:forEach>
